@@ -5,7 +5,8 @@ services:
     environment:
       MYSQL_ROOT_PASSWORD: fatec_password
       MYSQL_DATABASE: wordpress
-      MYSQL_USER: password_fatec
+      MYSQL_USER: user_fatec
+      MYSQL_PASSWORD: password_fatec
     volumes:
       - db_data:/var/lib/mysql
   wordpress:
