@@ -42,3 +42,20 @@ jobs:
 
       - name: Rodar verificação dentro do Container
         run: docker run ${{ secrets.DOCKER_USER }}/pudim-site:latest nginx -t
+
+  # Job 3: Deploy na VM Azure via SSH
+  deploy:
+    needs: test
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/main' || github.ref == 'refs/heads/master'
+    steps:
+      - name: Implantar na VM via SSH
+        uses: appleboy/ssh-action@v1
+        with:
+          host: ${{ secrets.AZURE_VM_HOST }}
+          username: ${{ secrets.AZURE_VM_USER }}
+          key: ${{ secrets.AZURE_VM_SSH_KEY }}
+          script: |
+            docker pull ${{ secrets.DOCKER_USER }}/pudim-site:latest
+            docker rm -f pudim-site || true
+            docker run -d --name pudim-site -p 8076:80 --restart unless-stopped ${{ secrets.DOCKER_USER }}/pudim-site:latest
