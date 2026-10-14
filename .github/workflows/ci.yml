@@ -58,4 +58,4 @@ jobs:
           script: |
             docker pull ${{ secrets.DOCKER_USER }}/pudim-site:latest
             docker rm -f pudim-site || true
-            docker run -d --name pudim-site -p 8076:80 --restart unless-stopped ${{ secrets.DOCKER_USER }}/pudim-site:latest
+            docker run -d --name pudim-site -p 76:80 --restart unless-stopped ${{ secrets.DOCKER_USER }}/pudim-site:latest
